@@ -1,0 +1,8 @@
+# Webstorm/Intellij
+.idea
+
+# node
+node_modules
+
+# output
+dist
