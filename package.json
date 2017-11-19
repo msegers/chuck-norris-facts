@@ -4,17 +4,25 @@
   "description": "This application presents factual information regarding Chuck Norris (before he shaved his beard).\n This application requires a working internet connection and a Modern browser as it is written using es6.",
   "main": "index.html",
   "dependencies": {
-    "vue": "^2.5.4",
-    "webpack": "^3.8.1"
+    "vue": "2.5.4",
+    "webpack": "3.8.1"
   },
   "devDependencies": {
-    "html-webpack-plugin": "^2.30.1",
-    "webpack-dev-server": "^2.9.4"
+    "cross-env": "5.1.1",
+    "html-webpack-plugin": "2.30.1",
+    "jasmine": "^2.8.0",
+    "karma": "^1.7.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.6",
+    "webpack-dev-server": "2.9.4",
+    "webpack-merge": "^4.1.1"
   },
   "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server",
-    "test": "TODO"
+    "build": "cross-env NODE_ENV=dev&& webpack",
+    "start": "cross-env NODE_ENV=dev&& webpack-dev-server",
+    "test": "cross-env NODE_ENV=test&& karma start --single-run"
   },
   "keywords": [
     "Chuck",
