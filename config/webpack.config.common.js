@@ -9,9 +9,11 @@ module.exports = {
         filename: 'bundle.js'
     },
     module: {
-        rules: [{
-            test: /\.vue$/, use: 'vue-loader'
-        }]
+        rules: [
+            { test: /\.vue$/, use: 'vue-loader' },
+            { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+            { test: /\.(jpe?g|png|gif|svg|eot|woff|ttf|svg|woff2)$/, loader: "file?name=[name].[ext]" }
+        ]
     },
     plugins: [
         new HtmlWebpackPlugin({

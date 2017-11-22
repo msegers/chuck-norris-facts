@@ -1,0 +1,11 @@
+html body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: Helvetica, "Helvetica Neue", Roboto, sans-serif;
+}
+
+#chuck-norris-facts {
+    max-width:800px;
+    margin: 20px auto;
+}

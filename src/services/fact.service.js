@@ -1,3 +1,5 @@
+import HttpService from './http.service';
+
 class FactService {
 
     constructor() {
@@ -17,12 +19,25 @@ class FactService {
     }
 
     loadFacts() {
-        console.log('todo');
+        HttpService.get('http://api.icndb.com/jokes/random/10').then(response => {
+            this.updateFacts(response.value);
+        });
     }
 
     emit(value) {
         this.subscriptions.forEach((cb) => {
             cb(value);
+        })
+    }
+
+    updateFacts(value) {
+        this.facts = value;
+        this.emit(value);
+    }
+
+    setFavouriteFact(id) {
+        return new Promise((resolve, reject) => {
+            reject("WIP");
         })
     }
 }
