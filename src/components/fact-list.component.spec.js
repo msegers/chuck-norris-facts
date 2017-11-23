@@ -1,12 +1,18 @@
 import FactList from './fact-list.component.vue';
 import FactService from '../services/fact.service'
 import Vue from "vue";
+import SessionService from '../services/session.service';
 
 describe("FactListTest", () => {
     let factList;
 
     beforeEach(() => {
+        SessionService.setLoggedIn(true);
         factList = new Vue(FactList).$mount();
+    });
+
+    afterEach(() => {
+        SessionService.setLoggedIn(false);
     });
 
     it("Should be a Vue Component", () => {
