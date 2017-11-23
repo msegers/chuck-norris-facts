@@ -2,8 +2,9 @@ import HttpService from './http.service';
 import DatabaseService from './database.service';
 
 class FactService {
-
     constructor() {
+        this.URL_10_FACTS = 'http://api.icndb.com/jokes/random/10';
+        this.URL_1_FACT = 'http://api.icndb.com/jokes/random/1';
         this.FAVORITE = 'favorite';
         this.RANDOM = 'random';
         this.randomSubscriptions = new Map();
@@ -11,6 +12,8 @@ class FactService {
         this.subscriptionCounter = 0; //includes unsubscribed randomSubscriptions
         this.facts = [];
         this.favorites = [];
+        this.addRandomFavorite = false;
+        this.addRandomTimer = 0;
         DatabaseService.ready().then(() => {
             this._loadFavourites();
         });
@@ -33,7 +36,7 @@ class FactService {
     }
 
     loadFacts() {
-        HttpService.get('http://api.icndb.com/jokes/random/10').then(response => {
+        HttpService.get(this.URL_10_FACTS).then(response => {
             this.facts = response.value;
             this._loadFavourites();
         });
@@ -54,6 +57,33 @@ class FactService {
                 reject("Only 10 favorites can be added");
             }
         });
+    }
+
+    toggleRandomFavorite() {
+        this.addRandomFavorite = !this.addRandomFavorite;
+        if (!this.addRandomFavorite || this.favorites.length >= 10) {
+            clearInterval(this.addRandomTimer);
+        } else {
+            clearInterval(this.addRandomTimer);
+            this.addRandomTimer = setInterval(() => this._addRandomFavorite(), 2000);
+        }
+    }
+
+    _addRandomFavorite() {
+        if (this.favorites.length < 10) {
+            HttpService.get(this.URL_1_FACT).then(response => {
+                let fact = response.value[0];
+                //in the case someone added it during the request
+                if (this.favorites.length < 10)
+                DatabaseService.addFavourite(fact)
+                    .then(() => {
+                        this._loadFavourites();
+                    });
+            });
+        } else {
+            this.addRandomFavorite = false;
+            clearInterval(this.addRandomTimer);
+        }
     }
 
     _emit(set, value) {

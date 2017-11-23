@@ -1,6 +1,7 @@
 <template>
    <div class="fact-list">
       <button @click="loadFacts">Load Chuck Norris Facts</button>
+      <button @click="toggleRandomFavorite" :disabled="favoriteFacts.length === 10">{{ toggleRandomText }}</button>
       <h2 v-if="randomFacts.length">Random facts</h2>
       <ul class="random-list">
          <li v-for="fact in randomFacts" class="list-item">
@@ -19,16 +20,28 @@
 <script>
    import FactService from '../services/fact.service';
    import CnfFactListItem from "./fact-list-item.component.vue";
+   let toggleActiveText = "Disable adding random favorites";
+   let toggleInactiveText = "Add random favorites";
 
    export default {
        components: {CnfFactListItem},
        name: 'cnf-fact-list',
        data: () => {
-           return { randomFacts: [], favoriteFacts: [] }
+           return { randomFacts: [], favoriteFacts: [], randomFavoriteActive: false, toggleRandomText: '' }
        },
        methods: {
            loadFacts() {
                FactService.loadFacts();
+           },
+           toggleRandomFavorite() {
+               FactService.toggleRandomFavorite();
+               this.toggleRandomText = this.getRandomAddButtonText();
+           },
+           getRandomAddButtonText() {
+               if (this.favoriteFacts.length >= 10) {
+                   return "Limit of favorites reached";
+               }
+               return FactService.addRandomFavorite ? toggleActiveText : toggleInactiveText;
            }
        },
        //we need ye-olde function notation for the proper this scope (otherwise it's the parent scope)
@@ -38,6 +51,7 @@
            });
            FactService.subscribe(FactService.FAVORITE, facts => {
               this.favoriteFacts = facts;
+              this.toggleRandomText = this.getRandomAddButtonText();
            });
        }
    }

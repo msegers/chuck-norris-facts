@@ -8,12 +8,20 @@ describe("FactServiceTest", () => {
         factService = FactService;
     });
 
-    it('Should be able to sub and unsubscribe', () => {
+    it('Should be able to sub and unsubscribe - random', () => {
         expect(factService.randomSubscriptions.size).toBe(0);
         let subscriptionId = factService.subscribe(FactService.RANDOM, () => {});
         expect(factService.randomSubscriptions.size).toBe(1);
         factService.unsubscribe(subscriptionId);
         expect(factService.randomSubscriptions.size).toBe(0);
+    });
+
+    it('Should be able to sub and unsubscribe - favorite', () => {
+        expect(factService.favoriteSubscriptions.size).toBe(0);
+        let subscriptionId = factService.subscribe(FactService.FAVORITE, () => {});
+        expect(factService.favoriteSubscriptions.size).toBe(1);
+        factService.unsubscribe(subscriptionId);
+        expect(factService.favoriteSubscriptions.size).toBe(0);
     });
 
     it('Should only _emit when subscribed - random events', () => {
