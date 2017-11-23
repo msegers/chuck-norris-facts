@@ -6,7 +6,6 @@ class HttpService {
 
     get(url) {
         return fetch(url, {method: 'GET', headers: this.headers}).then(response => {
-            console.log(response, response.ok);
             if (response.ok) {
                 return response.json();
             }

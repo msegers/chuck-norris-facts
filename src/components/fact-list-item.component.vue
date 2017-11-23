@@ -2,7 +2,11 @@
     <div class="fact-list-item">
         <span class="meta">
             <span>{{ fact.id }}</span>
-            <button class="favourite" @click="favourite(fact.id)"></button>
+            <button
+                v-bind:class="{ active: fact.favorite }"
+                class="favourite"
+                @click="favorite(fact.id)">
+            </button>
         </span>
         <span class="joke" v-html="fact.joke"></span>
     </div>
@@ -15,11 +19,11 @@
         name: 'cnf-fact-list-item',
         props: {
             fact: {
-                default: () => { return {id: '', joke: '' } }, type: Object},
+                default: () => { return {id: '', joke: '', favorite: false } }, type: Object},
         },
         methods: {
-            favourite(id) {
-                FactService.setFavouriteFact(id);
+            favorite(id) {
+                FactService.toggleFavouriteFact(id);
             }
         }
     }

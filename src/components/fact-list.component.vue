@@ -1,12 +1,13 @@
 <template>
    <div class="fact-list">
       <button @click="loadFacts">Load Chuck Norris Facts</button>
+      <h2 v-if="randomFacts.length">Random facts</h2>
       <ul class="random-list">
          <li v-for="fact in randomFacts" class="list-item">
             <cnf-fact-list-item v-bind:fact="fact"></cnf-fact-list-item>
          </li>
       </ul>
-
+      <h2 v-if="favoriteFacts.length">Favorites</h2>
       <ul class="favourite-list">
          <li v-for="fact in favoriteFacts" class="list-item">
             <cnf-fact-list-item v-bind:fact="fact"></cnf-fact-list-item>
@@ -32,8 +33,11 @@
        },
        //we need ye-olde function notation for the proper this scope (otherwise it's the parent scope)
        created: function () {
-           FactService.subscribe(facts => {
+           FactService.subscribe(FactService.RANDOM, facts => {
                this.randomFacts = facts;
+           });
+           FactService.subscribe(FactService.FAVORITE, facts => {
+              this.favoriteFacts = facts;
            });
        }
    }

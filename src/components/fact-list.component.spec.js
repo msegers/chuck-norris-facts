@@ -31,7 +31,7 @@ describe("FactListTest", () => {
         spyOn(FactService, 'loadFacts');
         let jokeList = [{id: 1, joke: 'funny'}, {id: 2, joke: 'joke'}];
 
-        FactService.emit(jokeList);
+        FactService._emit('random', jokeList);
 
         expect(factList.randomFacts).toEqual(jokeList);
 

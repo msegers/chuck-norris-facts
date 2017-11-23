@@ -28,10 +28,10 @@ describe('FactListItemTest', () => {
         });
     });
 
-    it('Should call setFavouriteJoke on factService when clicking favourite button', () => {
-        spyOn(FactService, 'setFavouriteFact');
+    it('Should call setFavouriteJoke on factService when clicking favorite button', () => {
+        spyOn(FactService, 'toggleFavouriteFact');
 
-        FactService.setFavouriteFact.and.callFake(() => {
+        FactService.toggleFavouriteFact.and.callFake(() => {
            return new Promise((resolve, reject) => {
                reject();
            })
@@ -42,7 +42,7 @@ describe('FactListItemTest', () => {
         button.dispatchEvent(clickEvt);
 
         // clear spy
-        FactService.setFavouriteFact.and.callThrough();
+        FactService.toggleFavouriteFact.and.callThrough();
 
     });
 });
